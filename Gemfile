@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'haml'
+gem 'json'
+gem 'activesupport'
+gem 'feedzirra'
+gem 'metoffice_datapoint'
+gem 'redcarpet'

@@ -1,0 +1,75 @@
+.page-header h2 {
+  margin-bottom: 0;
+}
+.page-header h3 {
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+}
+.popover {
+  max-width: none !important;
+  width: auto !important;
+}
+.news-popover-content {
+  max-width: 450px;
+}
+.weather-popover-content {
+  min-width: 500px;
+  margin-top: 1em;
+}
+.newslink {
+  padding: 0 !important;
+}
+.newslink-image {
+  float: right; 
+  margin: 0 0 12px 5px;
+}
+.quote-of-the-day {
+  margin: 0;
+}
+.quote-of-the-day dt {
+  font-weight: normal;
+}
+.quote-of-the-day dd {
+  margin: 0 0 0 2em;
+}
+.weather-row {
+  margin-bottom: 12px;
+  cursor: default;
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.weather-row .col-md-3, .weather-row .col-md-8 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.weather-row:hover {
+  background-color: #EEEEEE;
+}
+.label-weather {
+  display: inline-block;
+  width: 3.5em;
+  font-size: 0.85em;
+}
+.forecast-text {
+  display: inline-block;
+  padding: 1em 1em 1em 0.5em;
+}
+.img-weather {
+  margin-left: 0.2em;
+  margin-right: 0;
+}
+#weather-config {
+  cursor: pointer;
+  color: #BBB;
+}
+#weather-config:hover {
+  color: #888;
+}
+.modal-dialog {
+  padding-top: 15% !important;
+}
+.min-panel-height {
+  min-height: 290px;
+}
+

@@ -1,0 +1,21 @@
+%table.table.table-condensed.table-striped.table-bordered.weather-popover-content<
+  %tr
+    %th Time
+    %th Weather
+    %th Temperature
+    %th 'Feels Like'
+  - forecast_day.forecast_hours.each do |forecast_hour|
+    %tr<
+      %td<
+        %strong.forecast-text<
+          = forecast_hour.time_str
+      %td<
+        %img.img-rounded.img-weather{src: "/images/weather/#{forecast_hour.weather_image}", width: '40', height: '40'}
+        %span.forecast-text
+          = forecast_hour.weather_text
+      %td<
+        %span.forecast-text
+          #{forecast_hour.temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}
+      %td<
+        %span.forecast-text
+          #{forecast_hour.feels_like_temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}

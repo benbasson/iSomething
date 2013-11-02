@@ -1,0 +1,62 @@
+module MetOfficeAPI
+  
+  class Forecaster
+    
+    FORECAST_TIMEOUT_SECONDS = 60 * 60
+    
+    attr_accessor :location_cache
+    
+    def initialize api_key
+      @api_key = api_key
+      @location_cache = MetOfficeAPI::LocationCache.new api_key
+      @forecast_cache = Hash.new
+    end
+    
+    def is_location_valid location_id
+      @location_cache.has_location location_id
+    end
+    
+    def get_forecast location_id
+      # Use an existing cached value if available and if not timed out 
+      forecast = @forecast_cache[location_id]
+      return forecast unless forecast.nil? or forecast.created_time + FORECAST_TIMEOUT_SECONDS < Time.now 
+      
+      mdp = MetofficeDatapoint.new(api_key: @api_key)
+      daily_json = mdp.forecasts location_id, options = {res: 'daily'}
+      three_hourly_json = mdp.forecasts location_id, options = {res: '3hourly'} 
+      
+      # Parse the property units
+      weather_units = Hash.new
+      daily_json['SiteRep']['Wx']['Param'].each do |param|
+        name = param['name']
+        weather_units[name] = param['units']
+      end
+    
+      # Now parse each day into an object that we can work with easier in the HAML
+      forecast_days = []
+      daily_json['SiteRep']['DV']['Location']['Period'].each do |period|
+        three_hourly_period = nil
+        if not three_hourly_json.nil?
+          three_hourly_json['SiteRep']['DV']['Location']['Period'].each do |period_3hr|
+            if period_3hr['value'] === period['value']
+              three_hourly_period = period_3hr['Rep']
+            end
+          end
+        end
+        
+        raise IndexError, "No 3-hourly forecast found for date #{period['value']}" unless not three_hourly_period.nil?
+        forecast_days << MetOfficeAPI::ForecastDay.new(period, weather_units, three_hourly_period)
+      end
+
+      location = @location_cache.get_location location_id
+      forecast = MetOfficeAPI::Forecast.new location, forecast_days
+      
+      # Cache and return
+      @forecast_cache[location_id] = forecast
+      return forecast
+    end
+    
+  end
+  
+end
+  

@@ -1,0 +1,30 @@
+.modal-dialog
+  .modal-content
+    .modal-header
+      %button.close{type: 'button', data: {dismiss: 'modal'}, aria: {hidden: 'true'}}< &times;
+      %h4.modal-title Weather Forecast Settings
+    .modal-body
+      %form{role: 'form'}
+        .form-group
+          %label{for: 'location-id'} Location
+          %select#location-id.form-control
+            - if current_location_id.nil? or current_location_id.empty?
+              %option{value: ''} Select a location...
+            - locations.each do |location|
+              %option{value: location.id, selected: location.id === current_location_id ? 'true' : nil}<
+                = location.name
+        .form-group
+          %label{for: 'temperature-units'} Temperature Units
+          %select#temperature-units.form-control
+            %option{value: 'celcius', selected: current_temperature_units === 'celcius' ? 'true' : nil}< Celcius
+            %option{value: 'fahrenheit', selected: current_temperature_units === 'fahrenheit' ? 'true' : nil}< Fahrenheit
+    .modal-footer
+      %button.btn.btn-default{type: 'button', data: {dismiss: 'modal'}}< Close
+      %button#forecast-settings-save.btn.btn-primary{type:'button', data: {dismiss: 'modal'}}< Save changes
+:javascript
+  $('.weather-row').popover('hide');
+  $('#forecast-settings-save').click(function(){
+    $.cookie('location_id', $('#location-id').val(), {expires: 365*100})
+    $.cookie('temperature_units', $('#temperature-units').val(), {expires: 365*100})
+    location.reload();
+  });
