@@ -44,7 +44,7 @@
   padding-right: 5px;
 }
 .weather-row:hover {
-  background-color: #EEEEEE;
+  background-color: #EEE;
 }
 .label-weather {
   display: inline-block;
@@ -72,4 +72,10 @@
 .min-panel-height {
   min-height: 290px;
 }
-
+.page-footer {
+  border-top: 1px solid #EEE;
+  margin-top: 0.5em;
+  padding-top: 0.5em;
+  font-size: 0.8em;
+  text-align: right;
+}
