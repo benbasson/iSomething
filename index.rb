@@ -27,7 +27,7 @@ set :haml, :attr_wrapper => '"'
 set :server, 'thin'
 
 # Read in the API key from the local filesystme
-api_key = File.read('.metoffice-api-key')
+api_key = ENV['METOFFICE_API_KEY'] || File.read('.metoffice-api-key')
 
 # Read in list of names to randomly pick from
 names = JSON::parse(File.read('./config/names.json'))
