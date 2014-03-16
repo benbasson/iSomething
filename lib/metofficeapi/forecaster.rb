@@ -34,25 +34,31 @@ module MetOfficeAPI
     
       # Now parse each day into an object that we can work with easier in the HAML
       forecast_days = []
-      daily_json['SiteRep']['DV']['Location']['Period'].each do |period|
-        three_hourly_period = nil
-        if not three_hourly_json.nil?
-          three_hourly_json['SiteRep']['DV']['Location']['Period'].each do |period_3hr|
-            if period_3hr['value'] === period['value']
-              three_hourly_period = period_3hr['Rep']
+      
+      # Belt and braces check that there's at least one period
+      if !daily_json['SiteRep']['DV']['Location']['Period'].nil?
+              
+        daily_json['SiteRep']['DV']['Location']['Period'].each do |period|
+          three_hourly_period = nil
+          if not three_hourly_json.nil?
+            three_hourly_json['SiteRep']['DV']['Location']['Period'].each do |period_3hr|
+              if period_3hr['value'] === period['value']
+                three_hourly_period = period_3hr['Rep']
+              end
             end
           end
+          
+          raise IndexError, "No 3-hourly forecast found for date #{period['value']}" unless not three_hourly_period.nil?
+          forecast_days << MetOfficeAPI::ForecastDay.new(period, weather_units, three_hourly_period)
         end
         
-        raise IndexError, "No 3-hourly forecast found for date #{period['value']}" unless not three_hourly_period.nil?
-        forecast_days << MetOfficeAPI::ForecastDay.new(period, weather_units, three_hourly_period)
       end
 
       location = @location_cache.get_location location_id
       forecast = MetOfficeAPI::Forecast.new location, forecast_days
       
-      # Cache and return
-      @forecast_cache[location_id] = forecast
+      # Cache and return - but only cache if we actually have any forecast data
+      @forecast_cache[location_id] = forecast unless forecast_days.length == 0
       return forecast
     end
     
