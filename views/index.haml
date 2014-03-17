@@ -141,6 +141,14 @@
         .social
           #fb-root
           :javascript
+            window.fbAsyncInit = function() {
+              FB.init({
+                appId: 1556677457891751,
+                status: true,
+                cookie: true,
+                xfbml: true
+              });
+            };
             (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
