@@ -2,8 +2,8 @@ require 'sinatra'
 require 'sinatra/cookies'
 require 'sinatra/reloader' if development?
 require 'haml'
-require 'feedzirra'
-require 'feedzirra/parser/rss_entry'
+require 'feedjira'
+require 'feedjira/parser/rss_entry'
 require 'json'
 
 require_relative 'lib/metofficeapi'
@@ -17,7 +17,7 @@ class RSSThumbnail
   attribute :height
 end
 
-class Feedzirra::Parser::RSSEntry
+class Feedjira::Parser::RSSEntry
   elements 'media:thumbnail', :as => :thumbnails, :class => RSSThumbnail
 end
 
@@ -50,14 +50,14 @@ get '/' do
   # Fetch BBC news headlines, cache for 10 minutes
   if news_last_updated.nil? or news_last_updated < Time.now - 10*60
     puts 'Updating NEWS'
-    news_entries = Feedzirra::Feed.fetch_and_parse('http://feeds.bbci.co.uk/news/rss.xml').entries.take(12)
+    news_entries = Feedjira::Feed.fetch_and_parse('http://feeds.bbci.co.uk/news/rss.xml').entries.take(12)
     news_last_updated = Time.now
   end if
 
   # Fetch Quotes of the Day, cache for 60 minutes
   if qotd_last_updated.nil? or qotd_last_updated < Time.now - 60*60
     puts 'Updating QOTD'
-    qotd = Feedzirra::Feed.fetch_and_parse('http://www.quotationspage.com/data/qotd.rss')
+    qotd = Feedjira::Feed.fetch_and_parse('http://www.quotationspage.com/data/qotd.rss')
     qotd_entries = []
     qotd.entries.each do |entry|
       qotd_entries << entry unless entry.published < Date.today.to_time
@@ -68,7 +68,7 @@ get '/' do
   # Fetch Word of the Day, cache for 60 minutes
   if wotd_last_updated.nil? or wotd_last_updated < Time.now - 60*60
     puts 'Updating WOTD'
-    wotd = Feedzirra::Feed.fetch_and_parse('http://dictionary.reference.com/wordoftheday/wotd.rss')
+    wotd = Feedjira::Feed.fetch_and_parse('http://dictionary.reference.com/wordoftheday/wotd.rss')
     wotd_entry = wotd.entries.first
     wotd_last_updated = Time.now
   end

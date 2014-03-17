@@ -12,10 +12,9 @@ GEM
     atomic (1.1.14)
     backports (3.3.5)
     curb (0.8.5)
-    feedzirra (0.2.1)
+    feedjira (1.0.0)
       curb (~> 0.8.1)
       loofah (~> 1.2.1)
-      nokogiri (~> 1.6.0)
       sax-machine (~> 0.2.1)
     haml (4.0.3)
       tilt
@@ -33,9 +32,7 @@ GEM
     mini_portile (0.5.2)
     minitest (4.7.5)
     multi_json (1.8.2)
-    nokogiri (1.6.0)
-      mini_portile (~> 0.5.0)
-    nokogiri (1.6.0-x86-mingw32)
+    nokogiri (1.6.1-x86-mingw32)
       mini_portile (~> 0.5.0)
     oj (2.0.14)
     rack (1.5.2)
@@ -70,7 +67,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport
   andand
-  feedzirra
+  feedjira
   haml
   json
   metoffice_datapoint
