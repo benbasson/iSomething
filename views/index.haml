@@ -4,6 +4,9 @@
     %title< #{sitename}
     %link{href: '/css/bootstrap.min.css', rel: 'stylesheet', media: 'screen'}
     %link{href: '/css/isomething.css', rel: 'stylesheet', media: 'screen'} 
+    %meta{name: 'description', content: 'iSomething is a simple, no-frills replacement for a small subset of iGoogle features.'}
+    %meta{name: 'og:description', content: 'iSomething is a simple, no-frills replacement for a small subset of iGoogle features.'}
+    %meta{name: 'og:title', content: 'iSomething'}
   %body
     .container
       .page-header
@@ -116,7 +119,6 @@
               %a{href: wotd_entry.url}<
                 = wotd_entry.summary[0..wotd_entry.summary.index(':')-1]
               = wotd_entry.summary[wotd_entry.summary.index(':')..-1]
-
         .col-md-8
           .panel.panel-default
             .panel-heading<
