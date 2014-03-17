@@ -88,3 +88,6 @@
 .page-footer .social {
   float: left;
 }
+.page-footer .social iframe {
+  height: 50px !important;
+}
