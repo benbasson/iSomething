@@ -77,5 +77,11 @@
   margin-top: 0.5em;
   padding-top: 0.5em;
   font-size: 0.8em;
+}
+.page-footer .credits {
+  float: right;
   text-align: right;
+}
+.page-footer .social {
+  float: left;
 }
