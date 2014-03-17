@@ -1,3 +1,5 @@
+require 'andand'
+
 module MetOfficeAPI
   
   class Forecaster
@@ -35,8 +37,13 @@ module MetOfficeAPI
       # Now parse each day into an object that we can work with easier in the HAML
       forecast_days = []
       
-      # Belt and braces check that there's at least one period
-      if !daily_json['SiteRep']['DV']['Location']['Period'].nil?
+      # Hilarious fun with andand, but saves a trillion nil checks and copes with the
+      # possibility of malformed JSON coming back fairly gracefully... none of this stuff
+      # should be nil
+      if not daily_json.nil? and 
+        not daily_json['SiteRep'].andand['DV'].andand['Location'].andand['Period'].nil? and 
+        not three_hourly_json.nil? and 
+        not three_hourly_json['SiteRep'].andand['DV'].andand['Location'].andand['Period'].nil?
               
         daily_json['SiteRep']['DV']['Location']['Period'].each do |period|
           three_hourly_period = nil
