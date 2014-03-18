@@ -91,3 +91,13 @@
 .page-footer .social iframe {
   height: 50px !important;
 }
+.google-logo {
+  text-align: right;
+}
+
+/* Responsive goodness */
+@media screen and (max-width: 991px) {
+  .google-logo {
+    text-align: left;
+  }
+}
