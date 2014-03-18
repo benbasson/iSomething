@@ -60,13 +60,18 @@ module MetOfficeAPI
         end
         
       end
-
+      
+      # If we have a cached forecast already and the new one has failed, just use the cached version
+      return forecast if forecast_days.length == 0 and not forecast.nil?
+      
+      # Otherwise, we're building up a new forecast object
       location = @location_cache.get_location location_id
       forecast = MetOfficeAPI::Forecast.new location, forecast_days
       
-      # Cache and return - but only cache if we actually have any forecast data
+      # Cache and return - only cache if we actually have any forecast data
       @forecast_cache[location_id] = forecast unless forecast_days.length == 0
       return forecast
+
     end
     
   end
