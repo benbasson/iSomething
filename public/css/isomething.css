@@ -100,4 +100,7 @@
   .google-logo {
     text-align: left;
   }
+  .min-panel-height {
+    min-height: 0;
+  }
 }
