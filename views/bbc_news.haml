@@ -1,0 +1,10 @@
+.panel.panel-default
+  .panel-heading<
+    BBC News Headlines
+  .panel-body<
+    %ul.nav.nav-stacked
+      - news_entries.each do |entry|
+        - entry.sanitize!
+        %li
+          %a.newslink{href: entry.url, target: '_blank', title: entry.title, data: {summary: entry.summary, thumbnail: entry.thumbnails.last.url, container: 'body'}}
+            = entry.title

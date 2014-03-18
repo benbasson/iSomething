@@ -1,0 +1,26 @@
+.page-footer
+  .social
+    #fb-root
+    :javascript
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId: "#{ENV['FACEBOOK_APP_ID']}",
+          status: true,
+          cookie: true,
+          xfbml: true
+        });
+      };
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    .fb-share-button{data:{href: 'http://www.isomething.co.uk', type: 'button_count'}}
+  .credits
+    .text-muted 
+      :markdown
+        iSomething was created by [Ben Basson](http://github.com/benbasson/isomething) |
+        Weather icons ©2010-2014 [umutavci](http://umutavci.deviantart.com/art/weather-icon-set-165476034) | 
+        Weather data provided by [The Met Office](http://www.metoffice.gov.uk/)

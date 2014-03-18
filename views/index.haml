@@ -9,160 +9,20 @@
     %meta{property: 'og:title', content: 'iSomething'}
   %body
     .container
-      .page-header
-        %ul.nav.nav-pills.pull-right
-          %li
-            %a{href: 'https://www.google.com/search'}
-              %span.glyphicon.glyphicon-search
-              Search 
-          %li
-            %a{href: 'https://maps.google.com'}
-              %span.glyphicon.glyphicon-globe
-              Maps
-          %li
-            %a{href: 'https://www.google.com/imghp'}
-              %span.glyphicon.glyphicon-picture
-              Images 
-          %li
-            %a{href: 'https://play.google.com'}
-              %span.glyphicon.glyphicon-play
-              Play
-          %li
-            %a{href: 'https://www.youtube.com'}
-              %span.glyphicon.glyphicon-film
-              YouTube
-          %li
-            %a{href: 'https://mail.google.com'}
-              %span.glyphicon.glyphicon-envelope
-              Gmail
-          %li
-            %a{href: 'https://calendar.google.com'}
-              %span.glyphicon.glyphicon-calendar
-              Calendar
-        %h2.text-muted< #{sitename}
-        %h3.text-muted< iGoogle is dead, long live #{sitename}
-      .jumbotron
-        %form{method: 'GET', action: 'https://www.google.co.uk/search'}
-          .row
-            .col-md-2.text-right
-              %img{src: '/images/google.png', width: '94', height: '37', alt: 'Google Search'}
-            .col-md-9
-              .input-group.input-group-lg
-                %input.form-control{type: 'search', placeholder: 'Search', name: 'q'} 
-                %span.input-group-btn
-                  %button.btn.btn-primary{type: 'submit'}
-                    %b.glyphicon.glyphicon-search
-                    %span.text-hide
-                      Search
+      = haml :header, :locals => {:sitename => sitename} 
       .row
         .col-md-4
-          .panel.panel-default
-            .panel-heading<
-              BBC News Headlines
-            .panel-body<
-              %ul.nav.nav-stacked
-                - news_entries.each do |entry|
-                  - entry.sanitize!
-                  %li
-                    %a.newslink{href: entry.url, target: '_blank', title: entry.title, data: {summary: entry.summary, thumbnail: entry.thumbnails.last.url, container: 'body'}}
-                      = entry.title
+          = haml :bbc_news, :locals => {:news_entries => news_entries}
         .col-md-3
-          .panel.panel-default
-            .panel-heading<
-              %span#weather-config.pull-right.glyphicon.glyphicon-cog{title: 'Weather Forecast Settings', data: {toggle: 'modal', remote: '/forecast/forecast-settings', target: '#forecast-settings'}}
-              = forecast.nil? ? 'Weather Forecast' : forecast.location_name
-            .panel-body.min-panel-height<
-              - if forecast.nil?
-                %p A location has not yet been configured. Please set a location in order to see the weather forecast.
-              - if not forecast.nil?
-                - if forecast.forecast_days.length == 0
-                  %div.text-danger
-                    %p
-                      %span.glyphicon.glyphicon-warning-sign
-                      Error - Weather Not Found
-                    %p
-                      Forecast could not be retrieved from the Met Office, please refresh to try again.
-                - else
-                  - forecast.forecast_days.each do |forecast_day|
-                    %div.row.weather-row{title: "Weather Forecast - #{forecast.location_name} - #{forecast_day.date_formatted_long}", data: {poload: "/forecast/#{forecast.location_id}/#{forecast_day.date_string}/#{temperature_units}"}}
-                      .col-md-3
-                        %img.img-rounded{src: "/images/weather/#{forecast_day.day_weather_image}", width: '40', height: '40', alt: forecast_day.day_weather_text}
-                      .col-md-8
-                        .row
-                          %strong
-                            = forecast_day.date_formatted_short
-                          %span.pull-right.label.label-warning.label-weather
-                            #{forecast_day.max_temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}
-                        .row
-                          = forecast_day.day_weather_text
-                          %span.pull-right.label.label-info.label-weather
-                            #{forecast_day.min_temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}
+          = haml :weather_forecast, :locals => {:forecast => forecast, :temperature_units => temperature_units}
         .col-md-5
-          .panel.panel-default
-            .panel-heading<
-              Quotes of the Day
-            .panel-body.min-panel-height<
-              %dl.quote-of-the-day
-                - qotd_entries.each do |entry|
-                  - entry.sanitize!
-                  %dt
-                    = entry.summary
-                  %dd
-                    %span
-                      = ' - '
-                    %a{href: entry.url, target: '_blank'}
-                      = entry.title
+          = haml :qotd, :locals => {:qotd_entries => qotd_entries}
       .row
         .col-md-4
-          .panel.panel-default
-            .panel-heading<
-              Word of the Day
-            .panel-body<
-              %a{href: wotd_entry.url}<
-                = wotd_entry.summary[0..wotd_entry.summary.index(':')-1]
-              = wotd_entry.summary[wotd_entry.summary.index(':')..-1]
+          = haml :wotd, :locals => {:wotd_entry => wotd_entry}
         .col-md-8
-          .panel.panel-default
-            .panel-heading<
-              About #{sitename}
-            .panel-body
-              :markdown
-                #{sitename} is a quickly hacked up replacement for [iGoogle](http://en.wikipedia.org/wiki/IGoogle) 
-                that [I wrote](http://github.com/benbasson/isomething) in a few hours.
-                
-                The name changes every time the page is reloaded because:
-                
-                1. naming things is hard, so I decided to skip it 
-                2. it's a small tribute to [FireSomething](http://cosmicat.com/extensions/firesomething/),
-                   credited with the original idea and many of the animals in the list.
-                
-                There is basically just one feature - you can set the location for the weather forecast. Enjoy!
-      .page-footer
-        .social
-          #fb-root
-          :javascript
-            window.fbAsyncInit = function() {
-              FB.init({
-                appId: "#{ENV['FACEBOOK_APP_ID']}",
-                status: true,
-                cookie: true,
-                xfbml: true
-              });
-            };
-            (function(d, s, id) {
-              var js, fjs = d.getElementsByTagName(s)[0];
-              if (d.getElementById(id)) return;
-              js = d.createElement(s); js.id = id;
-              js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1";
-              fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-          .fb-share-button{data:{href: 'http://www.isomething.co.uk', type: 'button_count'}}          
-        .credits
-          .text-muted 
-            :markdown
-              iSomething was created by [Ben Basson](http://github.com/benbasson/isomething) |
-              Weather icons ©2010-2014 [umutavci](http://umutavci.deviantart.com/art/weather-icon-set-165476034) | 
-              Weather data provided by [The Met Office](http://www.metoffice.gov.uk/)
+          = haml :about, :locals => {:sitename => sitename}
+      = haml :footer
     -# This is used later on if we need to dynamically load in the forecast settings UI, otherwise unused
     #forecast-settings.modal.modal-vertical-centered{tabindex: '-1', role: 'dialog', aria: {hidden: 'true'}}
     -# Placed at the bottom of the document so the pages load faster
@@ -181,4 +41,3 @@
           e.popover({content: d, html: true, trigger: 'hover'}).popover('show');
         });
       });
-      

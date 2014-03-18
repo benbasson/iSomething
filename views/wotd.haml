@@ -1,0 +1,7 @@
+.panel.panel-default
+  .panel-heading<
+    Word of the Day
+  .panel-body<
+    %a{href: wotd_entry.url}<
+      = wotd_entry.summary[0..wotd_entry.summary.index(':')-1]
+    = wotd_entry.summary[wotd_entry.summary.index(':')..-1]

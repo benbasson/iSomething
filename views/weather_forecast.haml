@@ -1,0 +1,30 @@
+.panel.panel-default
+  .panel-heading<
+    %span#weather-config.pull-right.glyphicon.glyphicon-cog{title: 'Weather Forecast Settings', data: {toggle: 'modal', remote: '/forecast/forecast-settings', target: '#forecast-settings'}}
+    = forecast.nil? ? 'Weather Forecast' : forecast.location_name
+  .panel-body.min-panel-height<
+    - if forecast.nil?
+      %p A location has not yet been configured. Please set a location in order to see the weather forecast.
+    - if not forecast.nil?
+      - if forecast.forecast_days.length == 0
+        %div.text-danger
+          %p
+            %span.glyphicon.glyphicon-warning-sign
+            Error - Weather Not Found
+          %p
+            Forecast could not be retrieved from the Met Office, please refresh to try again.
+      - else
+        - forecast.forecast_days.each do |forecast_day|
+          %div.row.weather-row{title: "Weather Forecast - #{forecast.location_name} - #{forecast_day.date_formatted_long}", data: {poload: "/forecast/#{forecast.location_id}/#{forecast_day.date_string}/#{temperature_units}"}}
+            .col-md-3
+              %img.img-rounded{src: "/images/weather/#{forecast_day.day_weather_image}", width: '40', height: '40', alt: forecast_day.day_weather_text}
+            .col-md-8
+              .row
+                %strong
+                  = forecast_day.date_formatted_short
+                %span.pull-right.label.label-warning.label-weather
+                  #{forecast_day.max_temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}
+              .row
+                = forecast_day.day_weather_text
+                %span.pull-right.label.label-info.label-weather
+                  #{forecast_day.min_temp(temperature_units)}°#{forecast_day.temp_units(temperature_units)}
