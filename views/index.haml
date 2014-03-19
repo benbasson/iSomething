@@ -30,7 +30,7 @@
     %script{src: '/js/jquery.cookie-1.4.0.js'}
     %script{src: '/js/bootstrap.min.js'}
     :javascript
-      $('.newslink').popover({trigger: 'hover', html: true, content: function() {
+      $('.newslink').popover({trigger: 'hover', html: true, placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}, content: function() {
         return '<div class="news-popover-content"><img src="' + $(this).data('thumbnail') + '" class="img-thumbnail newslink-image">' 
           + '<p>' + $(this).data('summary') + '</p></div>'
       }});
@@ -38,6 +38,6 @@
         var e=$(this);
         e.unbind('mouseenter');
         $.get(e.data('poload'), function(d){
-          e.popover({content: d, html: true, trigger: 'hover'}).popover('show');
+          e.popover({content: d, html: true, trigger: 'hover', placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}}).popover('show');
         });
       });

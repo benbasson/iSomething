@@ -94,6 +94,12 @@
 .google-logo {
   text-align: right;
 }
+.weather-popover-content .full-text {
+  display: inline;
+}
+.weather-popover-content .reduced-text {
+  display: none;
+}
 
 /* Responsive goodness */
 @media screen and (max-width: 991px) {
@@ -102,5 +108,44 @@
   }
   .min-panel-height {
     min-height: 0;
+  }
+  .weather-table {
+    width: auto;
+  }
+}
+
+
+@media screen and (max-width: 1100px) {
+  .weather-popover-content {
+    font-size: 0.8em;
+    min-width: 400px !important;
+  }
+  .weather-popover-content table {
+    width: auto;
+  }
+  .forecast-image-container img {
+    width: 30px;
+    height: 30px;
+  }
+  .weather-popover-content .full-text {
+    display: none;
+  }
+  .weather-popover-content .reduced-text {
+    display: inline;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .weather-popover-content {
+    font-size: 0.7em;
+    min-width: 0 !important;
+    max-width: 320px;
+  }
+  .weather-popover-content table {
+    width: auto;
+  }
+  .forecast-image-container img {
+    width: 20px;
+    height: 20px;
   }
 }
