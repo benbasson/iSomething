@@ -9,7 +9,7 @@ FAQ
 
 *Why did you create this?*
 
-Google decided that iGoogle isn't really necessary in the age of smart phones and tablets. For a lot of use-cases that is probably true, but I like being able to see the headlines and weather forecast on my PC.
+Google decided that iGoogle isn't really necessary in the age of smart phones and tablets. For a lot of use-cases that is probably true, but I like being able to see the headlines and weather forecast all in one place on my PC.
 
 *Why does the name change on every page refresh?*
 
@@ -22,14 +22,10 @@ The name changes every time the page is reloaded because:
 
 Basically, none. There is just one feature - you can set the location for the weather forecast. In future, I may add other widgets / the ability to set the position within the page, etc.
 
-*It looks like you've got a responsive layout, but it doesn't really work*
-
-Yeah, pretty much. I didn't really get around to doing that properly. This page was written mainly for my use case of Firefox on a 24" monitor. 
-
 *It looks like you've started writing a Met Office API wrapper - is it going to be available as a Gem?*
 
 Probably. I started with the best of intentions, but I really don't need many of their API features, so I may or may not finish it / spin it off into its own project. Get in touch if this is something that interests you as potential for reuse will probably be enough motivation for me to do it. 
 
 *Can I contribute?*
 
-If you want to! Fork away.
+If you want to! Raise issues and/or fork away.
