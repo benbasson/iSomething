@@ -2,6 +2,29 @@ require_relative '../spec_helper'
 
 describe "MetOfficeAPI" do
   
+  before :all do
+    # Read Met Office API from environment variable or local file
+    @api_key = ENV['METOFFICE_API_KEY'] || File.read(File.expand_path(File.dirname(__FILE__) + '/../../.metoffice-api-key'))
+    
+    # Sample locations file
+    @stub_sitelist = File.read(File.expand_path(File.dirname(__FILE__) + '/testfiles/sitelist.json'))
+    @stub_forecast_daily = File.read(File.expand_path(File.dirname(__FILE__) + '/testfiles/forecast-daily.json'))
+    @stub_forecast_3hourly = File.read(File.expand_path(File.dirname(__FILE__) + '/testfiles/forecast-3hourly.json'))
+    @stub_forecast_nodata = File.read(File.expand_path(File.dirname(__FILE__) + '/testfiles/forecast-nodata.json'))
+  end
+  
+  before :each do
+    # Stub sitelist request to our local file
+    stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
+      .to_return(:status => 200, :headers => {'Content-Type'=>'application/json'}, :body => @stub_sitelist)
+      
+    stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
+      .to_return(:status => 200, :headers => {'Content-Type'=>'application/json'}, :body => @stub_forecast_daily)
+      
+    stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=3hourly")
+      .to_return(:status => 200, :headers => {'Content-Type'=>'application/json'}, :body => @stub_forecast_3hourly)
+  end
+  
   describe "Location" do
     
     before :all do
@@ -32,13 +55,12 @@ describe "MetOfficeAPI" do
   
   describe "LocationCache" do
     
-    before :all do
-      api_key = File.read File.expand_path(File.dirname(__FILE__) + '/../../.metoffice-api-key')
-      @cache = MetOfficeAPI::LocationCache.new api_key
+    before :each do 
+      @cache = MetOfficeAPI::LocationCache.new @api_key
     end
     
     it "should automatically retrieve lots of values" do
-      @cache.all_locations.size.should be > 5000
+      @cache.all_locations.size.should eq 5964
     end
     
     it "should contain only instances of MetOfficeAPI::Location" do
@@ -79,6 +101,20 @@ describe "MetOfficeAPI" do
     
     it "should raise a KeyError if provided an invalid location_id" do
       expect {@cache.get_location('not-there')}.to raise_error(KeyError)
+    end
+    
+    it "should cope gracefully when the sitelist isn't available" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
+        .to_return(status: 404, headers: {'Content-Type'=>'text/html'}, body: '')
+      cache = MetOfficeAPI::LocationCache.new @api_key
+      cache.all_locations.size.should eq 0
+    end
+    
+    it "should cope gracefully when the sitelist is malformed" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
+        .to_return(status: 200, headers: {'Content-Type'=>'application/json'}, body: 'not-a-json-response')
+      cache = MetOfficeAPI::LocationCache.new @api_key
+      cache.all_locations.size.should eq 0
     end
     
   end #LocationCache
@@ -269,10 +305,9 @@ describe "MetOfficeAPI" do
   
   describe "Forecaster" do
     
-    before :all do
-      api_key = File.read File.expand_path(File.dirname(__FILE__) + '/../../.metoffice-api-key')
-      @forecaster = MetOfficeAPI::Forecaster.new api_key
-      @location_id, dummy = @forecaster.location_cache.all_locations.first
+    before :each do
+      @forecaster = MetOfficeAPI::Forecaster.new @api_key
+      @location_id, dummy = '3072'
     end
     
     it "should return a MetOfficeAPI::Forecast object for a location" do
@@ -291,6 +326,52 @@ describe "MetOfficeAPI" do
       @forecaster.is_location_valid(@location_id).should be_true
     end
     
+    it "should cope gracefully when the sitelist isn't available" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
+        .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+        
+      forecaster = MetOfficeAPI::Forecaster.new @api_key
+      dummy = forecaster.location_cache.all_locations.first
+    end
+    
+    it "should cope gracefully when the sitelist is malformed" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
+        .to_return(:status => 200, :headers => {'Content-Type'=>'application/json'}, :body => 'not-a-json-response')
+        
+      forecaster = MetOfficeAPI::Forecaster.new @api_key
+      dummy = forecaster.location_cache.all_locations.first
+    end
+    
+    it "should cope gracefully when the day forecast isn't available" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
+        .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+      forecast = @forecaster.get_forecast @location_id
+    end
+    
+    it "should cope gracefully when the day forecast is malformed" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
+        .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => 'not-a-json-response')
+      forecast = @forecaster.get_forecast @location_id
+    end
+    
+    it "should cope gracefully when the day forecast contains no weather data" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
+        .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => @stub_forecast_nodata)
+      forecast = @forecaster.get_forecast @location_id
+    end
+    
+    it "should cope gracefully when the 3hourly forecast isn't available" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=3hourly")
+        .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+      forecast = @forecaster.get_forecast @location_id
+    end
+    
+    it "should cope gracefully when the 3hourly forecast is malformed" do
+      stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=3hourly")
+        .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => 'not-a-json-response')
+      forecast = @forecaster.get_forecast @location_id
+    end
+
   end #Forecaster
 
 end

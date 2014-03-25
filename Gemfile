@@ -9,3 +9,8 @@ gem 'feedjira'
 gem 'metoffice_datapoint'
 gem 'redcarpet'
 gem 'andand'
+
+group :development, :test do
+  gem 'rspec'
+  gem 'webmock'
+end

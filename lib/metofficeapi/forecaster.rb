@@ -22,21 +22,32 @@ module MetOfficeAPI
       # Use an existing cached value if available and if not timed out 
       forecast = @forecast_cache[location_id]
       return forecast unless forecast.nil? or forecast.created_time + FORECAST_TIMEOUT_SECONDS < Time.now 
-      
-      mdp = MetofficeDatapoint.new(api_key: @api_key)
-      daily_json = mdp.forecasts location_id, options = {res: 'daily'}
-      three_hourly_json = mdp.forecasts location_id, options = {res: '3hourly'} 
-      
-      # Parse the property units
+
       weather_units = Hash.new
-      daily_json['SiteRep']['Wx']['Param'].each do |param|
-        name = param['name']
-        weather_units[name] = param['units']
-      end
-    
-      # Now parse each day into an object that we can work with easier in the HAML
       forecast_days = []
       
+      mdp = MetofficeDatapoint.new(api_key: @api_key)
+      
+      begin
+        # Call out to the MDP API
+        daily_json = mdp.forecasts location_id, options = {res: 'daily'}
+        three_hourly_json = mdp.forecasts location_id, options = {res: '3hourly'}
+                
+        # Parse the property units
+        if not daily_json.nil? and not daily_json['SiteRep'].andand['Wx'].andand['Param'].nil?
+          daily_json['SiteRep']['Wx']['Param'].each do |param|
+            name = param['name']
+            weather_units[name] = param['units']
+          end
+        end
+        
+      rescue Oj::ParseError
+        # Do nothing for now
+      rescue MetofficeDatapoint::Errors::NotFoundError
+        # Do nothing for now
+      end
+    
+      # Now parse each day into an object that we can work with easier in the HAML    
       # Hilarious fun with andand, but saves a trillion nil checks and copes with the
       # possibility of malformed JSON coming back fairly gracefully... none of this stuff
       # should be nil

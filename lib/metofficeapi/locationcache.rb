@@ -15,12 +15,25 @@ module MetOfficeAPI
       time = Time.now
       if @last_location_update.nil? or @last_location_update + REFRESH_TIMEOUT_SECONDS < time
         local_cache = Hash.new
-        locations = MetofficeDatapoint.new(api_key: @api_key).forecasts_sitelist['Locations']['Location']
+        
+        begin
+          mdp = MetofficeDatapoint.new(api_key: @api_key)
+          sitelist = mdp.forecasts_sitelist
+          locations = sitelist.nil? ? [] : sitelist['Locations']['Location']
+        rescue Oj::ParseError, MetofficeDatapoint::Errors::NotFoundError
+          locations = []
+        end
+        
         locations.each do |location|
           local_cache[location['id']] = MetOfficeAPI::Location.new location['id'], location['name'], location['latitude'], location['longitude']
         end
-        @instance_cache = local_cache
-        @last_location_update = time
+        
+        if local_cache.size > 0 then
+          @instance_cache = local_cache
+          @last_location_update = time
+        else 
+          @instance_cache = []
+        end
       end
     end
     

@@ -1,0 +1,254 @@
+{
+  "SiteRep": {
+    "Wx": {
+      "Param": [
+        {
+          "name": "FDm",
+          "units": "C",
+          "$": "Feels Like Day Maximum Temperature"
+        },
+        {
+          "name": "FNm",
+          "units": "C",
+          "$": "Feels Like Night Minimum Temperature"
+        },
+        {
+          "name": "Dm",
+          "units": "C",
+          "$": "Day Maximum Temperature"
+        },
+        {
+          "name": "Nm",
+          "units": "C",
+          "$": "Night Minimum Temperature"
+        },
+        {
+          "name": "Gn",
+          "units": "mph",
+          "$": "Wind Gust Noon"
+        },
+        {
+          "name": "Gm",
+          "units": "mph",
+          "$": "Wind Gust Midnight"
+        },
+        {
+          "name": "Hn",
+          "units": "%",
+          "$": "Screen Relative Humidity Noon"
+        },
+        {
+          "name": "Hm",
+          "units": "%",
+          "$": "Screen Relative Humidity Midnight"
+        },
+        {
+          "name": "V",
+          "units": "",
+          "$": "Visibility"
+        },
+        {
+          "name": "D",
+          "units": "compass",
+          "$": "Wind Direction"
+        },
+        {
+          "name": "S",
+          "units": "mph",
+          "$": "Wind Speed"
+        },
+        {
+          "name": "U",
+          "units": "",
+          "$": "Max UV Index"
+        },
+        {
+          "name": "W",
+          "units": "",
+          "$": "Weather Type"
+        },
+        {
+          "name": "PPd",
+          "units": "%",
+          "$": "Precipitation Probability Day"
+        },
+        {
+          "name": "PPn",
+          "units": "%",
+          "$": "Precipitation Probability Night"
+        }
+      ]
+    },
+    "DV": {
+      "dataDate": "2014-03-25T19:00:00Z",
+      "type": "Forecast",
+      "Location": {
+        "i": "3072",
+        "lat": "56.879",
+        "lon": "-3.42",
+        "name": "CAIRNWELL",
+        "country": "SCOTLAND",
+        "continent": "EUROPE",
+        "elevation": "933.0",
+        "Period": [
+          {
+            "type": "Day",
+            "value": "2014-03-25Z",
+            "Rep": [
+              {
+                "D": "SSE",
+                "Gn": "25",
+                "Hn": "100",
+                "PPd": "21",
+                "S": "13",
+                "V": "PO",
+                "Dm": "1",
+                "FDm": "-1",
+                "W": "5",
+                "U": "1",
+                "$": "Day"
+              },
+              {
+                "D": "SE",
+                "Gm": "20",
+                "Hm": "100",
+                "PPn": "55",
+                "S": "13",
+                "V": "PO",
+                "Nm": "-2",
+                "FNm": "-6",
+                "W": "5",
+                "$": "Night"
+              }
+            ]
+          },
+          {
+            "type": "Day",
+            "value": "2014-03-26Z",
+            "Rep": [
+              {
+                "D": "ENE",
+                "Gn": "16",
+                "Hn": "75",
+                "PPd": "4",
+                "S": "11",
+                "V": "VG",
+                "Dm": "2",
+                "FDm": "-3",
+                "W": "1",
+                "U": "1",
+                "$": "Day"
+              },
+              {
+                "D": "ENE",
+                "Gm": "43",
+                "Hm": "95",
+                "PPn": "87",
+                "S": "29",
+                "V": "PO",
+                "Nm": "-2",
+                "FNm": "-10",
+                "W": "24",
+                "$": "Night"
+              }
+            ]
+          },
+          {
+            "type": "Day",
+            "value": "2014-03-27Z",
+            "Rep": [
+              {
+                "D": "ESE",
+                "Gn": "51",
+                "Hn": "88",
+                "PPd": "72",
+                "S": "31",
+                "V": "PO",
+                "Dm": "1",
+                "FDm": "-7",
+                "W": "24",
+                "U": "1",
+                "$": "Day"
+              },
+              {
+                "D": "E",
+                "Gm": "34",
+                "Hm": "94",
+                "PPn": "53",
+                "S": "22",
+                "V": "MO",
+                "Nm": "-2",
+                "FNm": "-9",
+                "W": "24",
+                "$": "Night"
+              }
+            ]
+          },
+          {
+            "type": "Day",
+            "value": "2014-03-28Z",
+            "Rep": [
+              {
+                "D": "ENE",
+                "Gn": "38",
+                "Hn": "87",
+                "PPd": "32",
+                "S": "25",
+                "V": "MO",
+                "Dm": "2",
+                "FDm": "-6",
+                "W": "7",
+                "U": "1",
+                "$": "Day"
+              },
+              {
+                "D": "E",
+                "Gm": "36",
+                "Hm": "96",
+                "PPn": "59",
+                "S": "25",
+                "V": "MO",
+                "Nm": "-1",
+                "FNm": "-7",
+                "W": "24",
+                "$": "Night"
+              }
+            ]
+          },
+          {
+            "type": "Day",
+            "value": "2014-03-29Z",
+            "Rep": [
+              {
+                "D": "E",
+                "Gn": "40",
+                "Hn": "93",
+                "PPd": "52",
+                "S": "25",
+                "V": "MO",
+                "Dm": "3",
+                "FDm": "-5",
+                "W": "7",
+                "U": "1",
+                "$": "Day"
+              },
+              {
+                "D": "E",
+                "Gm": "38",
+                "Hm": "97",
+                "PPn": "52",
+                "S": "27",
+                "V": "MO",
+                "Nm": "0",
+                "FNm": "-7",
+                "W": "8",
+                "$": "Night"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
+

@@ -1,0 +1,87 @@
+{
+  "SiteRep": {
+    "Wx": {
+      "Param": [
+        {
+          "name": "FDm",
+          "units": "C",
+          "$": "Feels Like Day Maximum Temperature"
+        },
+        {
+          "name": "FNm",
+          "units": "C",
+          "$": "Feels Like Night Minimum Temperature"
+        },
+        {
+          "name": "Dm",
+          "units": "C",
+          "$": "Day Maximum Temperature"
+        },
+        {
+          "name": "Nm",
+          "units": "C",
+          "$": "Night Minimum Temperature"
+        },
+        {
+          "name": "Gn",
+          "units": "mph",
+          "$": "Wind Gust Noon"
+        },
+        {
+          "name": "Gm",
+          "units": "mph",
+          "$": "Wind Gust Midnight"
+        },
+        {
+          "name": "Hn",
+          "units": "%",
+          "$": "Screen Relative Humidity Noon"
+        },
+        {
+          "name": "Hm",
+          "units": "%",
+          "$": "Screen Relative Humidity Midnight"
+        },
+        {
+          "name": "V",
+          "units": "",
+          "$": "Visibility"
+        },
+        {
+          "name": "D",
+          "units": "compass",
+          "$": "Wind Direction"
+        },
+        {
+          "name": "S",
+          "units": "mph",
+          "$": "Wind Speed"
+        },
+        {
+          "name": "U",
+          "units": "",
+          "$": "Max UV Index"
+        },
+        {
+          "name": "W",
+          "units": "",
+          "$": "Weather Type"
+        },
+        {
+          "name": "PPd",
+          "units": "%",
+          "$": "Precipitation Probability Day"
+        },
+        {
+          "name": "PPn",
+          "units": "%",
+          "$": "Precipitation Probability Night"
+        }
+      ]
+    },
+    "DV": {
+      "dataDate": "2014-03-25T20:00:00Z",
+      "type": "Forecast"
+    }
+  }
+}
