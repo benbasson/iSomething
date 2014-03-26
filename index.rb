@@ -5,6 +5,7 @@ require 'haml'
 require 'feedjira'
 require 'feedjira/parser/rss_entry'
 require 'json'
+require 'redcarpet'
 
 require_relative 'lib/metofficeapi'
 
