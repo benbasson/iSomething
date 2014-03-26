@@ -138,3 +138,7 @@ get '/forecast/:location_id/:date_string/:temperature_units' do
   }
   
 end
+
+get '/service-status' do
+  'Up and running'
+end
