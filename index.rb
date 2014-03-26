@@ -8,6 +8,10 @@ require 'json'
 
 require_relative 'lib/metofficeapi'
 
+configure :production do
+  require 'newrelic_rpm'
+end
+
 # Simple SAXMachine classes to parse a Media RSS <media:thumbnail/>
 # TODO: Remove reliance on hardcoded namespace prefix
 class RSSThumbnail
