@@ -141,5 +141,5 @@ get '/forecast/:location_id/:date_string/:temperature_units' do
 end
 
 get '/service-status' do
-  'Up and running'
+  "Up and running: #{Time.now.to_formatted_s :db}" 
 end
