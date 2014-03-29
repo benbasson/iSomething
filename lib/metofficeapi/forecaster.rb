@@ -1,10 +1,9 @@
 require 'andand'
+require 'active_support/core_ext/time'
 
 module MetOfficeAPI
   
   class Forecaster
-    
-    FORECAST_TIMEOUT_SECONDS = 60 * 60
     
     attr_accessor :location_cache
     
@@ -21,7 +20,9 @@ module MetOfficeAPI
     def get_forecast location_id
       # Use an existing cached value if available and if not timed out 
       forecast = @forecast_cache[location_id]
-      return forecast unless forecast.nil? or forecast.created_time + FORECAST_TIMEOUT_SECONDS < Time.now 
+      return forecast unless forecast.nil? or Time.now > forecast.created_time.end_of_hour 
+      
+      puts "#{Time.now.to_formatted_s :db} :: Forecast for location #{location_id} has expired, fetching new data." unless forecast.nil? 
 
       weather_units = Hash.new
       forecast_days = []

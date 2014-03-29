@@ -321,6 +321,27 @@ describe "MetOfficeAPI" do
       forecast.should equal forecast2
     end
     
+    it "should return a new forecast when the cache has expired" do
+      # Get the current date as a string
+      date_str = Date.current.to_formatted_s :db
+      
+      # Make Time.now return a known date/time
+      Time.stub(:now).and_return(Time.parse("#{date_str} 13:05"))
+      
+      # Get an initial forecast object to test
+      forecast = @forecaster.get_forecast @location_id
+      
+      # Suppress logging to keep rspec output looking tidy
+      $stdout.stub(:puts)
+     
+      # Now force the time to be when the cache should have expired
+      Time.stub(:now).and_return(Time.parse("#{date_str} 14:00"))
+      
+      # Get another forecast and compare objects
+      forecast2 = @forecaster.get_forecast @location_id
+      forecast.should_not equal forecast2
+    end
+    
     it "should receive a boolean result when checking if a location is valid" do
       @forecaster.is_location_valid('-1').should be_false
       @forecaster.is_location_valid(@location_id).should be_true
