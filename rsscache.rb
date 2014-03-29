@@ -20,16 +20,16 @@ class RSSCache
     
     Thread.new do
       while true do
-        self.update
+        self.update false
         sleep @options[:poll_secs]
       end
     end
   end
   
-  def update
+  def update jit_update
     @lock.synchronize do
       if @last_updated.nil? or @last_updated < Time.now - @options[:timeout_secs]
-        puts "#{Time.now.to_formatted_s :db} :: RSSCache Update :: #{@url} :: Will cache for #{@options[:timeout_secs]} seconds\n"
+        puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Will cache for #{@options[:timeout_secs]} seconds\n"
         raw_entries = Feedjira::Feed.fetch_and_parse(@url).entries
         
         @entries = @options[:filter].call raw_entries 
@@ -39,7 +39,7 @@ class RSSCache
   end
   
   def get 
-    self.update
+    self.update true
     @entries
   end
   
