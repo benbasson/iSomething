@@ -9,6 +9,7 @@ gem 'feedjira'
 gem 'metoffice_datapoint'
 gem 'redcarpet'
 gem 'andand'
+gem 'thin'
 
 group :development, :test do
   gem 'rspec'
