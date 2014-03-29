@@ -1,3 +1,5 @@
+require 'thread'
+
 module MetOfficeAPI
   # Location cache class, checks timeout on each retrieval
   class LocationCache
@@ -8,7 +10,19 @@ module MetOfficeAPI
     
     def initialize api_key
       @api_key = api_key
-      check_for_update
+      @lock = Mutex.new
+      
+      # Update on construction
+      self.check_for_update
+      
+      # Worker thread to refresh the cache
+      Thread.new do
+        while true do
+          sleep 60
+          self.check_for_update
+        end
+      end
+      
     end
     
     def check_for_update
@@ -29,10 +43,14 @@ module MetOfficeAPI
         end
         
         if local_cache.size > 0 then
-          @instance_cache = local_cache
-          @last_location_update = time
+          @lock.synchronize do
+            @instance_cache = local_cache
+            @last_location_update = time
+          end
         else 
-          @instance_cache = []
+          @lock.synchronize do
+            @instance_cache = []
+          end
         end
       end
     end

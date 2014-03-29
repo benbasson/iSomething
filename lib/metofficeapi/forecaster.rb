@@ -1,5 +1,6 @@
 require 'andand'
 require 'active_support/core_ext/time'
+require 'thread'
 
 module MetOfficeAPI
   
@@ -11,6 +12,19 @@ module MetOfficeAPI
       @api_key = api_key
       @location_cache = MetOfficeAPI::LocationCache.new api_key
       @forecast_cache = Hash.new
+      
+      # Worker thread to refresh the cache
+      Thread.new do
+        while true do
+          # Cycle through each location and see if it needs to be updated;
+          # in any case we're doing nothing with the result
+          @forecast_cache.each do |k,v|
+            get_forecast k
+          end
+          sleep 60
+        end
+      end
+      
     end
     
     def is_location_valid location_id
