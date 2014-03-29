@@ -56,10 +56,9 @@ module MetOfficeAPI
           end
         end
         
-      rescue Oj::ParseError
-        # Do nothing for now
-      rescue MetofficeDatapoint::Errors::NotFoundError
-        # Do nothing for now
+      rescue Oj::ParseError, MetofficeDatapoint::Errors::NotFoundError => ex
+        backtrace = ex.backtrace.join("\n")
+        puts "#{Time.now.to_formatted_s :db} :: Failed to parse weather data from Met Office DataPoint :: #{ex.message}\n#{backtrace}"
       end
     
       # Now parse each day into an object that we can work with easier in the HAML    

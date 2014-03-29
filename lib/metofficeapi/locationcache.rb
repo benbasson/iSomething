@@ -34,7 +34,9 @@ module MetOfficeAPI
           mdp = MetofficeDatapoint.new(api_key: @api_key)
           sitelist = mdp.forecasts_sitelist
           locations = sitelist.nil? ? [] : sitelist['Locations']['Location']
-        rescue Oj::ParseError, MetofficeDatapoint::Errors::NotFoundError
+        rescue Oj::ParseError, MetofficeDatapoint::Errors::NotFoundError => ex
+          backtrace = ex.backtrace.join("\n")
+          puts "#{Time.now.to_formatted_s :db} :: Failed to parse location data from Met Office DataPoint :: #{ex.message}\n#{backtrace}"
           locations = []
         end
         

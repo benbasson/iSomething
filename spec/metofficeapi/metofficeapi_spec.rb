@@ -106,6 +106,7 @@ describe "MetOfficeAPI" do
     it "should cope gracefully when the sitelist isn't available" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
         .to_return(status: 404, headers: {'Content-Type'=>'text/html'}, body: '')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
       cache = MetOfficeAPI::LocationCache.new @api_key
       cache.all_locations.size.should eq 0
     end
@@ -113,6 +114,7 @@ describe "MetOfficeAPI" do
     it "should cope gracefully when the sitelist is malformed" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
         .to_return(status: 200, headers: {'Content-Type'=>'application/json'}, body: 'not-a-json-response')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
       cache = MetOfficeAPI::LocationCache.new @api_key
       cache.all_locations.size.should eq 0
     end
@@ -350,6 +352,7 @@ describe "MetOfficeAPI" do
     it "should cope gracefully when the sitelist isn't available" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
         .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
         
       forecaster = MetOfficeAPI::Forecaster.new @api_key
       dummy = forecaster.location_cache.all_locations.first
@@ -358,6 +361,7 @@ describe "MetOfficeAPI" do
     it "should cope gracefully when the sitelist is malformed" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/sitelist?key=#{@api_key}")
         .to_return(:status => 200, :headers => {'Content-Type'=>'application/json'}, :body => 'not-a-json-response')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
         
       forecaster = MetOfficeAPI::Forecaster.new @api_key
       dummy = forecaster.location_cache.all_locations.first
@@ -366,30 +370,40 @@ describe "MetOfficeAPI" do
     it "should cope gracefully when the day forecast isn't available" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
         .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
+      
       forecast = @forecaster.get_forecast @location_id
     end
     
     it "should cope gracefully when the day forecast is malformed" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
         .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => 'not-a-json-response')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
+      
       forecast = @forecaster.get_forecast @location_id
     end
     
     it "should cope gracefully when the day forecast contains no weather data" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=daily")
         .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => @stub_forecast_nodata)
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
+      
       forecast = @forecaster.get_forecast @location_id
     end
     
     it "should cope gracefully when the 3hourly forecast isn't available" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=3hourly")
         .to_return(:status => 404, :headers => {'Content-Type'=>'text/html'}, :body => '')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
+      
       forecast = @forecaster.get_forecast @location_id
     end
     
     it "should cope gracefully when the 3hourly forecast is malformed" do
       stub_request(:get, "http://datapoint.metoffice.gov.uk/public/data/val/wxfcs/all/json/3072?key=#{@api_key}&res=3hourly")
         .to_return(:status => 200, :headers => {'Content-Type'=>'text/html'}, :body => 'not-a-json-response')
+      $stdout.stub(:puts) # Suppress logging to keep rspec output looking tidy
+      
       forecast = @forecaster.get_forecast @location_id
     end
 
