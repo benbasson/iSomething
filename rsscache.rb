@@ -19,9 +19,14 @@ class RSSCache
     @options = DEFAULT_OPTIONS.merge(options)
     
     Thread.new do
-      while true do
-        self.update false
-        sleep @options[:poll_secs]
+      begin
+        while true do
+          self.update false
+          sleep @options[:poll_secs]
+        end
+      rescue Exception => ex
+        backtrace = ex.backtrace.join("\n")
+        puts "#{Time.now.to_formatted_s :db} :: Exception thrown in RSSCache Thread loop :: #{ex.message}\n#{backtrace}"
       end
     end
   end
