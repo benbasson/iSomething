@@ -38,7 +38,7 @@ class RSSCache
         raw_entries = Feedjira::Feed.fetch_and_parse(@url).entries
         
         @entries = @options[:filter].call raw_entries 
-        @last_updated = Time.now
+        @last_updated = Time.now unless @entries.size == 0
       end
     end
   end

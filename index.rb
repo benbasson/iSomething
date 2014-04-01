@@ -52,7 +52,9 @@ configure do
   
   set :wotd_cache, RSSCache.new('http://dictionary.reference.com/wordoftheday/wotd.rss', {
     :timeout_secs => 60*60, # 1 hour
-    :filter => lambda do |entries| entries.first end
+    :filter => lambda do |entries|
+      temp_entries = [entries.first]
+    end
   })
   
   # Read in list of names to randomly pick from
@@ -90,7 +92,7 @@ get '/' do
     :sitename => "i#{settings.names.sample.titleize}",
     :news_entries => settings.bbc_news_cache.get,
     :qotd_entries => settings.qotd_cache.get,
-    :wotd_entry => settings.wotd_cache.get,
+    :wotd_entry => settings.wotd_cache.get.first,
     :forecast => forecast,
     :temperature_units => temperature_units
   }
