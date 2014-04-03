@@ -37,7 +37,7 @@ class RSSCache
         puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Will cache for #{@options[:timeout_secs]} seconds\n"
         raw_entries = Feedjira::Feed.fetch_and_parse(@url).entries
         
-        @entries = @options[:filter].call raw_entries 
+        @entries = @options[:filter].call raw_entries unless raw_entries.size == 0
         @last_updated = Time.now unless @entries.size == 0
       end
     end
