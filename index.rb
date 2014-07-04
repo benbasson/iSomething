@@ -32,6 +32,7 @@ configure do
   # No real reason other than aesthetically I prefer it
   set :haml, :attr_wrapper => '"'
   set :server, 'thin'
+  set :static_cache_control, [:public, max_age: 60 * 60 * 24 * 7 * 52]
   
   # Put these cache objects in as global settings, bit dirty but effective and safe
   set :bbc_news_cache, RSSCache.new('http://feeds.bbci.co.uk/news/rss.xml', {
