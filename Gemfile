@@ -10,6 +10,7 @@ gem 'metoffice_datapoint'
 gem 'redcarpet'
 gem 'andand'
 gem 'thin'
+gem 'rack-contrib'
 
 group :development, :test do
   gem 'rspec'
