@@ -26,18 +26,19 @@
     -# This is used later on if we need to dynamically load in the forecast settings UI, otherwise unused
     #forecast-settings.modal.modal-vertical-centered{tabindex: '-1', role: 'dialog', aria: {hidden: 'true'}}
     -# Placed at the bottom of the document so the pages load faster
-    %script{src: '/js/jquery-2.0.3.min.js'}
-    %script{src: '/js/jquery.cookie-1.4.0.js'}
-    %script{src: '/js/bootstrap.min.js'}
-    :javascript
-      $('.newslink').popover({trigger: 'hover', html: true, placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}, content: function() {
-        return '<div class="news-popover-content"><img src="' + $(this).data('thumbnail') + '" class="img-thumbnail newslink-image">' 
-          + '<p>' + $(this).data('summary') + '</p></div>'
-      }});
-      $('.weather-row').bind('mouseenter', function(){
-        var e=$(this);
-        e.unbind('mouseenter');
-        $.get(e.data('poload'), function(d){
-          e.popover({content: d, html: true, trigger: 'hover', placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}}).popover('show');
+    %script{src: '/js/jquery-2.0.3.min.js', defer: true}
+    %script{src: '/js/jquery.cookie-1.4.0.js', defer: true}
+    %script{src: '/js/bootstrap.min.js', defer: true}
+    %script{defer: true}
+      :plain
+        $('.newslink').popover({trigger: 'hover', html: true, placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}, content: function() {
+          return '<div class="news-popover-content"><img src="' + $(this).data('thumbnail') + '" class="img-thumbnail newslink-image">'
+            + '<p>' + $(this).data('summary') + '</p></div>'
+        }});
+        $('.weather-row').bind('mouseenter', function(){
+          var e=$(this);
+          e.unbind('mouseenter');
+          $.get(e.data('poload'), function(d){
+            e.popover({content: d, html: true, trigger: 'hover', placement: function (){return $(window).width() >= 991 ? 'right' : 'bottom';}}).popover('show');
+          });
         });
-      });
