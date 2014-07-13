@@ -1,5 +1,8 @@
 .page-header
   %header.navbar.navbar-static-top
+    .navbar-header
+      %h2.text-muted< #{sitename}
+      %h3.text-muted< iGoogle is dead, long live #{sitename}
     %nav.navbar.pull-right
       %ul.navbar-nav.nav.nav-pills
         %li
@@ -30,9 +33,6 @@
           %a{href: 'https://calendar.google.com'}
             %span.glyphicon.glyphicon-calendar
             Calendar
-    .navbar-header
-      %h2.text-muted< #{sitename}
-      %h3.text-muted< iGoogle is dead, long live #{sitename}
 .jumbotron
   %form{method: 'GET', action: 'https://www.google.co.uk/search'}
     .row
