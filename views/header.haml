@@ -1,35 +1,38 @@
 .page-header
-  %ul.nav.nav-pills.pull-right
-    %li
-      %a{href: 'https://www.google.com/search'}
-        %span.glyphicon.glyphicon-search
-        Search 
-    %li
-      %a{href: 'https://maps.google.com'}
-        %span.glyphicon.glyphicon-globe
-        Maps
-    %li
-      %a{href: 'https://www.google.com/imghp'}
-        %span.glyphicon.glyphicon-picture
-        Images 
-    %li
-      %a{href: 'https://play.google.com'}
-        %span.glyphicon.glyphicon-play
-        Play
-    %li
-      %a{href: 'https://www.youtube.com'}
-        %span.glyphicon.glyphicon-film
-        YouTube
-    %li
-      %a{href: 'https://mail.google.com'}
-        %span.glyphicon.glyphicon-envelope
-        Gmail
-    %li
-      %a{href: 'https://calendar.google.com'}
-        %span.glyphicon.glyphicon-calendar
-        Calendar
-  %h2.text-muted< #{sitename}
-  %h3.text-muted< iGoogle is dead, long live #{sitename}
+  %header.navbar.navbar-static-top
+    %nav.navbar.pull-right
+      %ul.navbar-nav.nav.nav-pills
+        %li
+          %a{href: 'https://www.google.com/search'}
+            %span.glyphicon.glyphicon-search
+            Search
+        %li
+          %a{href: 'https://maps.google.com'}
+            %span.glyphicon.glyphicon-globe
+            Maps
+        %li
+          %a{href: 'https://www.google.com/imghp'}
+            %span.glyphicon.glyphicon-picture
+            Images
+        %li
+          %a{href: 'https://play.google.com'}
+            %span.glyphicon.glyphicon-play
+            Play
+        %li
+          %a{href: 'https://www.youtube.com'}
+            %span.glyphicon.glyphicon-film
+            YouTube
+        %li
+          %a{href: 'https://mail.google.com'}
+            %span.glyphicon.glyphicon-envelope
+            Gmail
+        %li
+          %a{href: 'https://calendar.google.com'}
+            %span.glyphicon.glyphicon-calendar
+            Calendar
+    .navbar-header
+      %h2.text-muted< #{sitename}
+      %h3.text-muted< iGoogle is dead, long live #{sitename}
 .jumbotron
   %form{method: 'GET', action: 'https://www.google.co.uk/search'}
     .row

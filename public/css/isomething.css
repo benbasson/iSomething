@@ -1,5 +1,14 @@
+header.navbar {
+  margin: 0;
+}
+nav.navbar {
+  margin-bottom: 5px;
+  margin-top: 15px;
+}
 .page-header {
   border-bottom: 1px solid #DDD;
+  margin-top: 20px;
+  padding-bottom: 4px;
 }
 .page-header h2 {
   margin-bottom: 0;
@@ -112,11 +121,21 @@
   .clear-when-small {
     clear: both;
   }
+  .navbar-header h2 {
+    margin-top: 0;
+  }
+  nav.navbar {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
 }
 
 @media screen and (max-width: 767px) {
   .weather-table {
     width: auto
+  }
+  .newslink {
+    padding: 3px !important;
   }
 }
 
@@ -137,6 +156,9 @@
   }
   .weather-popover-content .reduced-text {
     display: inline;
+  }
+  .navbar-header {
+    margin-top: 0;
   }
 }
 
