@@ -3,8 +3,8 @@
     BBC News Headlines
   .panel-body<
     %ul.nav.nav-stacked
-      - news_entries.each do |entry|
+      - news_entries.reject{|e| e.nil?}.each do |entry|
         - entry.sanitize!
         %li
-          %a.newslink{href: entry.url, target: '_blank', title: entry.title, data: {summary: entry.summary, thumbnail: entry.thumbnails.last.url, container: 'body'}}
+          %a.newslink{href: entry.url, target: '_blank', title: entry.title, data: {summary: entry.summary, thumbnail: get_thumbnail(entry), container: 'body'}}
             = entry.title

@@ -23,6 +23,16 @@ class Feedjira::Parser::RSSEntry
   elements 'media:thumbnail', :as => :thumbnails, :class => RSSThumbnail
 end
 
+helpers do
+  def get_thumbnail entry
+    if entry.thumbnails.present?
+      last_thumb = entry.thumbnails.last
+      return last_thumb.url unless last_thumb.nil?
+    end
+    return '/images/nothumb.jpg'
+  end
+end
+
 configure :production do
   require 'newrelic_rpm'
 end
