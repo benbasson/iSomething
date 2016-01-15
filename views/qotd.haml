@@ -3,12 +3,13 @@
     Quotes of the Day
   .panel-body.min-panel-height<
     %dl.quote-of-the-day
-      - qotd_entries.each do |entry|
-        - entry.sanitize!
-        %dt
-          = entry.summary
-        %dd
-          %span
-            = ' - '
-          %a{href: entry.url, target: '_blank'}
-            = entry.title
+      - if !qotd_entries.nil?
+        - qotd_entries.each do |entry|
+          - entry.sanitize!
+          %dt
+            = entry.summary
+          %dd
+            %span
+              = ' - '
+            %a{href: entry.url, target: '_blank'}
+              = entry.title
