@@ -37,7 +37,11 @@ class RSSCache
     @lock.synchronize do
       if @last_updated.nil? or @last_updated < Time.now - @options[:timeout_secs]
         puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Fetching RSS\n"
-        feed_result = Feedjira::Feed.fetch_and_parse(@url)
+        begin
+          feed_result = Feedjira::Feed.fetch_and_parse(@url)
+        rescue Exception => ex
+          puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Exception raised - #{ex.message}\n"
+        end
         # Belt and braces check that we've actually been given back a Feedjira Parser class and not a Fixnum 
         # or perhaps something else entirely, depending on what Feedjira felt like returning (seems to return
         # HTTP status code as a Fixnum when parsing fails)
