@@ -69,7 +69,7 @@ module MetOfficeAPI
         not daily_json['SiteRep'].andand['DV'].andand['Location'].andand['Period'].nil? and 
         not three_hourly_json.nil? and 
         not three_hourly_json['SiteRep'].andand['DV'].andand['Location'].andand['Period'].nil?
-              
+
         daily_json['SiteRep']['DV']['Location']['Period'].each do |period|
           three_hourly_period = nil
           if not three_hourly_json.nil?
@@ -79,8 +79,9 @@ module MetOfficeAPI
               end
             end
           end
-          
-          raise IndexError, "No 3-hourly forecast found for date #{period['value']}" unless not three_hourly_period.nil?
+
+          # If the day doesn't have any 3 hourly forecasts then just skip showing it
+          next unless not three_hourly_period.nil?
           forecast_days << MetOfficeAPI::ForecastDay.new(period, weather_units, three_hourly_period)
         end
         
