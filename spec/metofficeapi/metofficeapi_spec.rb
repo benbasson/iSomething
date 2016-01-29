@@ -345,8 +345,8 @@ describe "MetOfficeAPI" do
     end
     
     it "should receive a boolean result when checking if a location is valid" do
-      @forecaster.is_location_valid('-1').should be_false
-      @forecaster.is_location_valid(@location_id).should be_true
+      @forecaster.is_location_valid('-1').should be_falsey
+      @forecaster.is_location_valid(@location_id).should be_truthy
     end
     
     it "should cope gracefully when the sitelist isn't available" do
