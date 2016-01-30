@@ -53,11 +53,11 @@ configure do
   set :qotd_cache, RSSCache.new('http://www.quotationspage.com/data/qotd.rss', {
     :timeout_secs => 60*60, # 1 hour
     :filter => lambda do |entries|
-      today_entries = []
-      entries.each do |entry|
-        today_entries << entry unless entry.published < Date.today.to_time
+      today_entries = entries.select{|entry| entry.published >= Date.today.to_time}
+      if today_entries.empty?
+        today_entries = entries.select{|entry| entry.published >= Date.yesterday.to_time}
       end
-      today_entries
+      return today_entries
     end
   })
   
