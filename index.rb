@@ -47,7 +47,7 @@ configure do
   # Put these cache objects in as global settings, bit dirty but effective and safe
   set :bbc_news_cache, RSSCache.new('http://feeds.bbci.co.uk/news/rss.xml', {
     :timeout_secs => 10*60, # 10 minutes
-    :filter => lambda do |entries| entries.take 12 end
+    :filter => lambda do |entries| entries.take 13 end
   })
   
   set :qotd_cache, RSSCache.new('http://www.quotationspage.com/data/qotd.rss', {

@@ -1,3 +1,7 @@
+body {
+  font-size: 13px;
+}
+
 header.navbar {
   margin: 0;
 }

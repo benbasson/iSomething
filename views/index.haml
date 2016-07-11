@@ -13,11 +13,11 @@
     .container
       = haml :header, :locals => {:sitename => sitename} 
       .row
-        .col-md-4.col-sm-6
+        .col-md-5.col-sm-6
           = haml :bbc_news, :locals => {:news_entries => news_entries}
         .col-md-3.col-sm-6
           = haml :weather_forecast, :locals => {:forecast => forecast, :temperature_units => temperature_units}
-        .col-md-5.col-sm-12.clear-when-small
+        .col-md-4.col-sm-12.clear-when-small
           = haml :qotd, :locals => {:qotd_entries => qotd_entries}
       .row
         .col-md-4
