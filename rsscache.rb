@@ -48,7 +48,7 @@ class RSSCache
         if not feed_result.nil? and Feedjira::Parser.constants.include? feed_result.class.name.demodulize.to_sym
           raw_entries = feed_result.entries
           @entries = @options[:filter].call raw_entries unless raw_entries.size == 0
-          @last_updated = Time.now unless @entries.size == 0
+          @last_updated = Time.now unless @entries.nil? or @entries.size == 0
           puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Success - will cache for #{@options[:timeout_secs]} seconds\n"
         else
           puts "#{Time.now.to_formatted_s :db} :: RSSCache Update #{jit_update ? '(JIT) ' : ''}:: #{@url} :: Fail - result was #{feed_result.nil? ? 'nil' : feed_result}\n"
@@ -59,7 +59,7 @@ class RSSCache
   
   def get 
     self.update true
-    @entries
+    @entries || []
   end
   
 end
