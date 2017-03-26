@@ -3,6 +3,10 @@ require 'active_support/core_ext/time'
 require 'thread'
 
 module MetOfficeAPI
+
+  METOFFICE_DATAPOINT_ERRORS = [MetofficeDatapoint::Errors::GeneralError, MetofficeDatapoint::Errors::ForbiddenError,
+                                MetofficeDatapoint::Errors::NotFoundError, MetofficeDatapoint::Errors::SystemError,
+                                MetofficeDatapoint::Errors::UnavailableError]
   
   class Forecaster
     
@@ -56,7 +60,7 @@ module MetOfficeAPI
           end
         end
         
-      rescue Oj::ParseError, MetofficeDatapoint::Errors::NotFoundError => ex
+      rescue Oj::ParseError, *METOFFICE_DATAPOINT_ERRORS => ex
         backtrace = ex.backtrace.join("\n")
         puts "#{Time.now.to_formatted_s :db} :: Failed to parse weather data from Met Office DataPoint :: #{ex.message}\n#{backtrace}"
       end
