@@ -61,7 +61,7 @@ configure do
     end
   })
   
-  set :wotd_cache, RSSCache.new('http://dictionary.reference.com/wordoftheday/wotd.rss', {
+  set :wotd_cache, RSSCache.new('https://wordsmith.org/awad/rss1.xml', {
     :timeout_secs => 60*60, # 1 hour
     :filter => lambda do |entries|
       temp_entries = [entries.first]
