@@ -12,14 +12,11 @@ module MetOfficeAPI
       @api_key = api_key
       @lock = Mutex.new
       
-      # Update on construction
-      self.check_for_update
-      
       # Worker thread to refresh the cache
       Thread.new do
         while true do
-          sleep 60
           self.check_for_update
+          sleep 60
         end
       end
       
