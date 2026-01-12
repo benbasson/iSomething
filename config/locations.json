@@ -2,5 +2,6 @@
   {"id":"1","latitude":"51.6528","longitude":"-0.1991","name":"Barnet"},
   {"id":"2","latitude":"51.4982","longitude":"-0.1323","name":"Westminster"},
   {"id":"3","latitude":"53.4301","longitude":"-2.0938","name":"Woodley"},
-  {"id":"4","latitude":"51.4125","longitude":"-0.8349","name":"Wokingham"}
+  {"id":"4","latitude":"51.4125","longitude":"-0.8349","name":"Wokingham"},
+  {"id":"5","latitude":"51.3061","longitude":"-1.0854","name":"Sherfield on Loddon"}
 ]
