@@ -1,30 +1,30 @@
-!!!  
-%html  
+!!!
+%html
   %head
     %meta{http: {equiv: 'Content-Type'}, content: 'text/html; charset=UTF-8'}
     %meta{name: 'viewport', content: 'width=device-width, initial-scale=1'}
     %title< #{sitename}
     %link{href: '/css/bootstrap.min.css', rel: 'stylesheet', media: 'screen'}
-    %link{href: '/css/isomething.css', rel: 'stylesheet', media: 'screen'} 
+    %link{href: '/css/isomething.css', rel: 'stylesheet', media: 'screen'}
     %meta{name: 'description', content: 'iSomething is a simple, no-frills replacement for a small subset of iGoogle features.'}
     %meta{property: 'og:description', content: 'iSomething is a simple, no-frills replacement for a small subset of iGoogle features.'}
     %meta{property: 'og:title', content: 'iSomething'}
   %body
     .container
-      = haml :header, :locals => {:sitename => sitename} 
+      != haml :header, :locals => {:sitename => sitename}
       .row
         .col-md-5.col-sm-6
-          = haml :bbc_news, :locals => {:news_entries => news_entries}
+          != haml :bbc_news, :locals => {:news_entries => news_entries}
         .col-md-3.col-sm-6
-          = haml :weather_forecast, :locals => {:forecast => forecast, :temperature_units => temperature_units}
+          != haml :weather_forecast, :locals => {:forecast => forecast, :temperature_units => temperature_units}
         .col-md-4.col-sm-12.clear-when-small
-          = haml :qotd, :locals => {:qotd_entries => qotd_entries}
+          != haml :qotd, :locals => {:qotd_entries => qotd_entries}
       .row
         .col-md-4
-          = haml :wotd, :locals => {:wotd_entry => wotd_entry}
+          != haml :wotd, :locals => {:wotd_entry => wotd_entry}
         .col-md-8
-          = haml :about, :locals => {:sitename => sitename}
-      = haml :footer
+          != haml :about, :locals => {:sitename => sitename}
+      != haml :footer
     -# This is used later on if we need to dynamically load in the forecast settings UI, otherwise unused
     #forecast-settings.modal.modal-vertical-centered{tabindex: '-1', role: 'dialog', aria: {hidden: 'true'}}
     -# Placed at the bottom of the document so the pages load faster

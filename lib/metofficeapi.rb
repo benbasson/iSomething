@@ -1,4 +1,3 @@
-require 'metoffice_datapoint'
 require 'active_support/core_ext/integer/inflections'
 
 require_relative 'metofficeapi/forecast'
